@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OVER ROAD | 長野市のパーソナルトレーニングスタジオ</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;700&family=Noto+Sans+JP:wght@300;400;700&family=Noto+Serif+JP:wght@600&display=swap" rel="stylesheet">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        :root {
+            --bg-base: #fdfdfd;
+            --accent-gold: #a68966;
+            --text-dark: #1a1a1a;
+        }
+        body { font-family: 'Noto Sans JP', sans-serif; background-color: var(--bg-base); }
+        .font-heading { font-family: 'Oswald', sans-serif; }
+        .font-serif { font-family: 'Noto Serif JP', serif; }
+        
+        .fade-in { animation: fadeIn 1.5s ease-out forwards; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* 写真が切れないように w-full h-auto を基本にする */
+        .img-premium { 
+            filter: grayscale(0); 
+            transition: transform 0.7s ease;
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        .img-premium:hover { 
+            transform: scale(1.02);
+        }
+        
+        .section-title::after {
+            content: "";
+            display: block;
+            width: 40px;
+            height: 2px;
+            background: var(--accent-gold);
+            margin: 20px auto 0;
+        }
+
+        .btn-premium {
+            background: linear-gradient(135deg, #1a1a1a 0%, #333 100%);
+            transition: 0.3s;
+        }
+        .btn-premium:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+        }
+        html { scroll-behavior: smooth; }
+
+        /* スクロール時のヘッダー制御 */
+        #navbar.scrolled {
+            background-color: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(12px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            padding-top: 0.75rem;
+            padding-bottom: 0.75rem;
+        }
+        #navbar.scrolled .nav-text {
+            color: #1c1917 !important;
+        }
+        #navbar.scrolled .nav-subtext {
+            color: #78716c !important;
+        }
+
+        /* プレイボタンのアニメーション */
+        .play-button-ripple::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border: 2px solid white;
+            border-radius: 50%;
+            animation: ripple 2s infinite;
+        }
+        @keyframes ripple {
+            0% { transform: scale(1); opacity: 1; }
+            100% { transform: scale(1.8); opacity: 0; }
+        }
+
+        /* プロフィール展開用のアニメーション */
+        #profile-extra {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.6s ease-out, opacity 0.4s ease-out;
+            opacity: 0;
+        }
+        #profile-extra.open {
+            max-height: 2000px; 
+            opacity: 1;
+        }
+    </style>
+</head>
+<body class="text-stone-800 antialiased text-center">
+
+    <!-- Navigation -->
+    <nav id="navbar" class="fixed w-full z-[100] transition-all duration-500 py-4 sm:py-6">
+        <div class="container mx-auto px-4 sm:px-6 flex justify-between items-center">
+            <div class="flex flex-col text-left">
+                <span class="text-xl sm:text-2xl font-heading font-bold tracking-[0.2em] text-white leading-none drop-shadow-md transition-colors duration-300 nav-text">OVER ROAD</span>
+                <span class="text-[7px] sm:text-[8px] tracking-[0.2em] text-stone-300 mt-1 uppercase font-bold italic drop-shadow-md transition-colors duration-300 nav-subtext">The Science of Strength</span>
+            </div>
+            
+            <div id="nav-links" class="hidden md:flex items-center space-x-6 lg:space-x-8 text-[10px] font-bold tracking-[0.2em] text-white transition-colors duration-300 nav-text">
+                <a href="#about" class="hover:text-amber-500 transition-colors uppercase drop-shadow-md font-bold">指導理念</a>
+                <a href="#trainer" class="hover:text-amber-500 transition-colors uppercase drop-shadow-md font-bold">トレーナー</a>
+                <a href="#voice" class="hover:text-amber-500 transition-colors uppercase drop-shadow-md font-bold">体験者の声</a>
+                <a href="#price" class="hover:text-amber-500 transition-colors uppercase drop-shadow-md font-bold">料金プラン</a>
+                <a href="#access" class="hover:text-amber-500 transition-colors uppercase drop-shadow-md font-bold">アクセス</a>
+                <a href="#" class="btn-premium text-white px-6 lg:px-8 py-3 rounded-sm transition-all uppercase font-bold shadow-lg text-center">無料体験予約</a>
+            </div>
+
+            <button class="md:hidden text-white drop-shadow-md p-2 nav-text" onclick="toggleMenu()">
+                <i data-lucide="menu" id="menu-icon"></i>
+            </button>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-stone-100 p-8 flex flex-col space-y-6 shadow-2xl font-bold text-center">
+            <a href="#about" class="text-sm tracking-widest text-stone-900" onclick="toggleMenu()">指導理念</a>
+            <a href="#trainer" class="text-sm tracking-widest text-stone-900" onclick="toggleMenu()">トレーナー紹介</a>
+            <a href="#voice" class="text-sm tracking-widest text-stone-900" onclick="toggleMenu()">体験者の声</a>
+            <a href="#movie" class="text-sm tracking-widest text-stone-900" onclick="toggleMenu()">動画</a>
+            <a href="#trial" class="text-sm tracking-widest text-stone-900" onclick="toggleMenu()">体験の流れ</a>
+            <a href="#price" class="text-sm tracking-widest text-stone-900" onclick="toggleMenu()">料金プラン</a>
+            <a href="#access" class="text-sm tracking-widest text-stone-900" onclick="toggleMenu()">アクセス</a>
+            <a href="#" class="btn-premium text-white py-4 rounded-sm text-xs tracking-widest text-center uppercase">無料体験予約</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="relative min-h-screen flex items-center justify-center overflow-hidden bg-black text-center">
+        <div class="absolute inset-0 z-0 text-center">
+            <img src="https://github.com/yakimoto-design/image/blob/main/overroad/%E3%82%AA%E3%83%BC%E3%83%90%E3%83%BC%E3%83%AD%E3%83%BC%E3%83%892.png?raw=true" alt="Over Road Hero" class="w-full h-full object-cover opacity-60">
+            <div class="absolute inset-0 bg-gradient-to-b from-black/60 via-black/20 to-black/70 text-center"></div>
+        </div>
+
+        <div class="container mx-auto px-4 sm:px-6 relative z-10 text-center fade-in text-white">
+            <p class="text-amber-500 font-heading tracking-[0.3em] sm:tracking-[0.4em] text-[10px] sm:text-xs mb-6 sm:mb-8 uppercase font-bold drop-shadow-lg text-center">25年の競技実績が導く「本物」の指導</p>
+            <h1 class="text-3xl sm:text-5xl md:text-7xl lg:text-8xl font-heading font-bold mb-8 sm:mb-10 leading-[1.3] sm:leading-[1.2] md:leading-[1.1] tracking-tighter drop-shadow-2xl text-center">
+                20年間の自己流を、<br />
+                <span class="text-white opacity-95">60分で超えていく。</span>
+            </h1>
+            <div class="w-10 sm:w-12 h-0.5 bg-amber-500 mx-auto mb-10 shadow-xl"></div>
+            <p class="text-xs sm:text-base md:text-lg text-stone-100 max-w-2xl mx-auto mb-10 sm:mb-12 leading-loose tracking-widest font-medium drop-shadow-md px-4 text-center">
+                長野市で25年の競技歴を持つプロが教える、<br class="hidden sm:block" />
+                解剖学に基づいた「一生モノ」のトレーニング技術。
+            </p>
+            <div class="px-4 text-center">
+                <a href="#trial" class="inline-block w-full sm:w-auto btn-premium text-white px-8 sm:px-14 py-5 sm:py-6 rounded-sm text-[10px] sm:text-xs tracking-[0.2em] sm:tracking-[0.3em] uppercase transition-all font-bold shadow-2xl border border-white/10 hover:border-white/30 text-center">
+                    無料体験トレーニングはこちら
+                </a>
+            </div>
+        </div>
+        
+        <div class="absolute bottom-10 left-1/2 -translate-x-1/2 z-10 animate-bounce">
+            <i data-lucide="chevron-down" class="text-white opacity-50 w-6 h-6 sm:w-8 sm:h-8"></i>
+        </div>
+    </header>
+
+    <!-- 指導理念 Section -->
+    <section id="about" class="py-24 sm:py-32 bg-stone-50 text-center">
+        <div class="container mx-auto px-6 text-center text-center">
+            <div class="max-w-4xl mx-auto mb-16 sm:mb-24 text-center text-center">
+                <h2 class="text-[10px] tracking-[0.4em] text-amber-800 uppercase mb-4 font-bold italic text-center">指導理念</h2>
+                <h3 class="text-2xl sm:text-3xl md:text-5xl font-heading font-bold tracking-tight text-stone-900 mb-8 leading-tight section-title uppercase text-center text-center">オーバーロードが選ばれる理由</h3>
+                <p class="text-stone-600 leading-loose text-xs sm:text-sm md:text-base tracking-widest font-medium mt-10 px-2 text-center text-center">
+                    流行のメソッドではなく、25年の実践と解剖学が証明する「本質」を伝えます。<br />
+                    重さに頼らず、筋肉を確実に捉える技術で、身体の可能性を覚醒させます。
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-12 sm:gap-16 lg:gap-24 text-center">
+                <div class="flex flex-col items-center text-center">
+                    <div class="mb-6 sm:mb-8 text-stone-900 text-center text-center"><i data-lucide="award" class="w-10 h-10 sm:w-12 sm:h-12 text-center text-center"></i></div>
+                    <h4 class="text-lg sm:text-xl font-heading font-bold mb-4 sm:mb-6 tracking-widest text-stone-900 uppercase text-center text-center">圧倒的な競技実績</h4>
+                    <p class="text-stone-500 text-xs sm:text-sm leading-relaxed tracking-wider font-medium italic text-center text-center">25年のキャリアが証明する圧倒的な引き出しの多さ。</p>
+                </div>
+                <div class="flex flex-col items-center text-center text-center text-center">
+                    <div class="mb-6 sm:mb-8 text-stone-900 text-center text-center text-center"><i data-lucide="brain" class="w-10 h-10 sm:w-12 sm:h-12 text-center text-center text-center"></i></div>
+                    <h4 class="text-lg sm:text-xl font-heading font-bold mb-4 sm:mb-6 tracking-widest text-stone-900 uppercase text-center text-center text-center text-center">解剖学に基づいた理論</h4>
+                    <p class="text-stone-500 text-xs sm:text-sm leading-relaxed tracking-wider font-medium italic text-center text-center text-center text-center">解剖学に基づき、最小限の重量で最大限の刺激を与える。</p>
+                </div>
+                <div class="flex flex-col items-center text-center text-center text-center text-center">
+                    <div class="mb-6 sm:mb-8 text-stone-900 text-center text-center text-center text-center"><i data-lucide="target" class="w-10 h-10 sm:w-12 sm:h-12 text-center text-center text-center text-center"></i></div>
+                    <h4 class="text-lg sm:text-xl font-heading font-bold mb-4 sm:mb-6 tracking-widest text-stone-900 uppercase text-center text-center text-center text-center">現実的なボディメイク</h4>
+                    <p class="text-stone-500 text-xs sm:text-sm leading-relaxed tracking-wider font-medium italic text-center text-center text-center text-center text-center">会社員経験があるからこそわかる、忙しい人のための継続術。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- トレーナー紹介 Section -->
+    <section id="trainer" class="py-24 sm:py-32 bg-white text-center text-center">
+        <div class="container mx-auto px-6 text-center text-center">
+            <div class="flex flex-col lg:flex-row gap-16 lg:gap-24 items-start text-left text-left text-left text-left">
+                <!-- 写真枠 -->
+                <div class="w-full lg:w-2/5 flex justify-center lg:sticky lg:top-32 text-center">
+                    <div class="relative w-full max-w-sm text-center">
+                        <div class="absolute -inset-4 border-2 border-stone-100 -z-10 translate-x-2 translate-y-2 text-center"></div>
+                        <div class="absolute inset-0 bg-stone-900/5 -z-10 -translate-x-2 -translate-y-2 text-center"></div>
+                        
+                        <div class="bg-stone-100 overflow-hidden shadow-2xl text-center">
+                            <img src="https://github.com/yakimoto-design/image/blob/main/overroad/%E3%82%AA%E3%83%BC%E3%83%90%E3%83%BC%E3%83%AD%E3%83%BC%E3%83%893.png?raw=true" alt="パーソナルトレーナー 原 剛士" class="img-premium text-center">
+                        </div>
+                        
+                        <div class="mt-8 text-center lg:text-left text-center">
+                            <h2 class="text-[10px] tracking-[0.4em] text-amber-800 uppercase mb-2 font-bold italic text-center lg:text-left">The Trainer</h2>
+                            <h3 class="text-3xl font-heading font-bold text-stone-900 uppercase tracking-tight text-center lg:text-left text-center">原 剛士 <span class="text-xs font-serif italic text-stone-400 ml-2 tracking-normal uppercase text-center">Takeshi Hara</span></h3>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- プロフィール文章 -->
+                <div class="w-full lg:w-3/5 text-left text-left">
+                    <div class="space-y-8">
+                        <div class="text-left text-left">
+                            <p class="text-stone-600 leading-[2.2] text-sm sm:text-base tracking-widest font-medium text-left text-left">ボディビル競技を25年間現役で継続しつつ、10年ほど前から、コンテスト出場希望者、アスリート、一般のダイエッターを対象として、トレーニングや食事に関する指導をさせていただいております。<br>クライアント様の中からベストボディジャパン、JBBF各大会にて入賞者を多数輩出中です。</p>
+                            
+                            <div id="profile-extra" class="text-left text-left">
+                                <p class="text-stone-600 leading-[2.2] text-sm sm:text-base tracking-widest font-medium mt-8 text-left text-left">
+私がトレーニングを始めたきっかけは、20代の頃までは身体が細かったので、もっと大きな身体になりたいと思い、近くのジムに通い始めました。そのとき師匠に出会い、始めた当初は出場する気がなかったボディビル選手権に、僅か３ヶ月で出場していました。選手の皆さんに圧倒されたと同時に、この人たちにまた来年もこの場で逢いたいと思い、出場を続けて２５年が経ちました。
+
+それから現代、多種多様する世の中で、自分の身体に磨きをかけることに価値を見出す人が多くなり、ここ数年でパーソナルトレーナーが多くなったと実感しています。
+近年、益々健康に対する気運は高まっており、そんな時に私に役に立てる事はないかと考えたのがパーソナルセッションです。
+
+指導経験、引き出しの多さと実績には絶対の自信を持っております。一度自分と本気で向き合いたいとお考えの方がいらっしゃいましたら、是非私にご用命下さい。今日よりも明日、1か月後に、ご自身がなりたい身体に進化している姿を共に観てみませんか。
+お待ちしております。</p>
+                            </div>
+
+                            <button id="toggle-profile" onclick="toggleProfile()" class="mt-8 flex items-center gap-2 text-amber-800 font-bold text-[10px] tracking-widest uppercase hover:opacity-70 transition-all text-left text-left">
+                                <span>Read More</span>
+                                <i data-lucide="chevron-down" id="profile-icon" class="w-4 h-4 transition-transform duration-300 text-left text-left text-left"></i>
+                            </button>
+                        </div>
+
+                        <!-- 経歴・実績 -->
+                        <div class="grid sm:grid-cols-2 gap-10 pt-12 border-t border-stone-100 text-left text-left">
+                            <div class="text-left text-left text-left text-left text-left">
+                                <h4 class="font-heading font-bold text-stone-900 uppercase tracking-widest border-l-4 border-amber-800 pl-4 mb-6 text-left text-left text-left text-left text-left">経歴・実績</h4>
+                                <ul class="space-y-3 text-[11px] sm:text-xs text-stone-500 leading-relaxed tracking-widest text-left text-left text-left text-left text-left text-left text-left">
+                                    <li class="flex items-start gap-2 text-left text-left text-left text-left">個人パーソナル歴五年プライペートパーソナルGYM勤務経験あり</li>
+                                    <li class="flex items-start gap-2 text-left text-left text-left text-left text-left text-left">JBBF全日本マスターズ40歳以上の部八位</li>
+                                    <li class="flex items-start gap-2 text-left text-left text-left text-left text-left text-left text-left">JBBF東日本マスターズ40歳以上の部三位</li>
+                                    <li class="flex items-start gap-2 text-left text-left text-left text-left text-left text-left text-left text-left text-left">JBBF東日本75kg級四位</li>
+                                    <li class="flex items-start gap-2 text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left">JBBF北陸甲信越マスターズボディビル優勝</li>
+                                    <li class="flex items-start gap-2 text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left">JBBF長野県マスターズボディビル優勝</li>
+                                    <li class="flex items-start gap-2 text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left">JBBF長野県理事</li>
+                                </ul>
+                            </div>
+                            <div class="text-left text-left text-left text-left text-left text-left">
+                                <h4 class="font-heading font-bold text-stone-900 uppercase tracking-widest border-l-4 border-amber-800 pl-4 mb-6 text-left text-left text-left text-left text-left">保有資格等</h4>
+                                <ul class="space-y-3 text-[11px] sm:text-xs text-stone-500 leading-relaxed tracking-widest text-left text-left text-left text-left text-left text-left text-left">
+                                    <li class="flex items-start gap-2 text-left text-left text-left text-left text-left text-left text-left"><i data-lucide="check" class="w-3 h-3 text-amber-800 mt-0.5 shrink-0 text-left text-left text-left text-left text-left"></i> 介護運動指導員</li>
+                                    <li class="flex items-start gap-2 text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left"><i data-lucide="check" class="w-3 h-3 text-amber-800 mt-0.5 shrink-0 text-left text-left text-left text-left text-left text-left text-left"></i> NSCA-CPT正会員</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 体験者の声 Section -->
+    <section id="voice" class="py-24 sm:py-32 bg-stone-50 text-center text-center text-center text-center text-center">
+        <div class="container mx-auto px-6 text-center text-center text-center text-center text-center">
+            <h2 class="text-[10px] tracking-[0.4em] text-amber-800 uppercase mb-4 font-bold italic text-center text-center text-center text-center text-center text-center">体験者の声</h2>
+            <h3 class="text-2xl sm:text-3xl md:text-5xl font-heading font-bold tracking-tight text-stone-900 mb-8 leading-tight section-title uppercase text-center text-center text-center text-center text-center text-center text-center">劇的な変化を遂げた方々</h3>
+
+            <div class="grid md:grid-cols-3 gap-8 mt-16 sm:mt-24 text-center text-center text-center text-center text-center">
+                <!-- 体験談 1 -->
+                <div class="bg-white border border-stone-100 relative group transition-all duration-500 hover:shadow-xl hover:-translate-y-2 overflow-hidden flex flex-col text-left text-left text-left text-left text-left">
+                    <div class="bg-stone-200 text-left text-left text-left text-left text-left text-left">
+                        <img src="https://github.com/yakimoto-design/image/blob/main/overroad/%E3%82%AA%E3%83%BC%E3%83%90%E3%83%BC%E3%83%AD%E3%83%BC%E3%83%896.png?raw=true" class="img-premium text-left text-left text-left text-left text-left" alt="体験談 1">
+                    </div>
+                    <div class="p-8 sm:p-10 flex flex-col flex-grow text-left text-left text-left text-left text-left text-left">
+                        <div class="text-[9px] text-amber-800 font-bold mb-2 uppercase tracking-widest text-left text-left text-left text-left text-left">2020石川オープンボディビル3位 / 歴2年</div>
+                        <h4 class="text-base sm:text-lg font-bold mb-4 sm:mb-6 leading-snug tracking-wide text-stone-900 font-serif italic text-left text-left text-left text-left text-left text-left">"原さんの指導を受けて"</h4>
+                        <p class="text-stone-500 text-xs sm:text-sm leading-relaxed mb-8 sm:mb-10 italic flex-grow text-left text-left text-left text-left text-left text-left text-left">
+                            トレーニングは何より怪我をしないやり方を重視されていて、これだけの経験があっても強制的ではなく提案していただけ、良きパートナーと言う感覚で教えていただけるのでやる気も上がります。
+                        </p>
+                        <div class="border-t border-stone-200 pt-6 text-left text-left text-left">
+                            <p class="text-[10px] font-bold text-stone-800 tracking-widest uppercase text-left text-left text-left text-left text-left">— 須坂市 青木 宏門様 (25歳)</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 体験談 2 -->
+                <div class="bg-white border border-stone-100 relative group transition-all duration-500 hover:shadow-xl hover:-translate-y-2 overflow-hidden flex flex-col text-left text-left text-left text-left text-left">
+                    <div class="bg-stone-200 text-left text-left text-left text-left text-left text-left text-left">
+                        <img src="https://github.com/yakimoto-design/image/blob/main/overroad/%E3%82%AA%E3%83%BC%E3%83%90%E3%83%BC%E3%83%AD%E3%83%BC%E3%83%897.png?raw=true" class="img-premium text-left text-left text-left text-left text-left text-left text-left" alt="体験談 2">
+                    </div>
+                    <div class="p-8 sm:p-10 flex flex-col flex-grow text-left text-left text-left text-left text-left text-left">
+                        <div class="text-[9px] text-amber-800 font-bold mb-2 uppercase tracking-widest text-left text-left text-left text-left text-left text-left text-left">2021年長野県選手権クラシックフィジーク優勝</div>
+                        <h4 class="text-base sm:text-lg font-bold mb-4 sm:mb-6 leading-snug tracking-wide text-stone-900 font-serif italic text-left text-left text-left text-left text-left text-left text-left">"パーソナルトレーニングを終えて"</h4>
+                        <p class="text-stone-500 text-xs sm:text-sm leading-relaxed mb-8 sm:mb-10 italic flex-grow text-left text-left text-left text-left text-left text-left text-left text-left">
+                            マナーから対象筋への負荷の与え方まで、大きく成長できました。これを受けたことで普段のトレーニングに大きな変化を出すことができました。レッスンを受けることで、自分の目的に必ず合った方法を教えていただけます！
+                        </p>
+                        <div class="border-t border-stone-200 pt-6 text-left text-left text-left">
+                            <p class="text-[10px] font-bold text-stone-800 tracking-widest uppercase text-left text-left text-left text-left text-left text-left text-left text-left text-left">— 長野市 庄村 聖様 (25歳)</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 体験談 3 -->
+                <div class="bg-white border border-stone-100 relative group transition-all duration-500 hover:shadow-xl hover:-translate-y-2 overflow-hidden flex flex-col text-left text-left text-left text-left text-left text-left text-left text-left text-left">
+                    <div class="bg-stone-200 text-left text-left text-left text-left text-left text-left text-left text-left text-left">
+                        <img src="https://github.com/yakimoto-design/image/blob/main/overroad/%E3%82%AA%E3%83%BC%E3%83%90%E3%83%BC%E3%83%AD%E3%83%BC%E3%83%898.png?raw=true" class="img-premium text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left" alt="体験談 3">
+                    </div>
+                    <div class="p-8 sm:p-10 flex flex-col flex-grow text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left">
+                        <div class="text-[9px] text-amber-800 font-bold mb-2 uppercase tracking-widest text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left">General Fitness / Diet Success</div>
+                        <h4 class="text-base sm:text-lg font-bold mb-4 sm:mb-6 leading-snug tracking-wide text-stone-900 font-serif italic text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left">"10kg近い減量に成功"</h4>
+                        <p class="text-stone-500 text-xs sm:text-sm leading-relaxed mb-8 sm:mb-10 italic flex-grow text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left">
+                            トレーニングの質が変わり、10kg近く体重を落とすことができました。ウェイトを始めて20年になりますが、原さんの指導は次元が違いました。
+                        </p>
+                        <div class="border-t border-stone-200 pt-6 text-left text-left text-left text-left">
+                            <p class="text-[10px] font-bold text-stone-800 tracking-widest uppercase text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left">— 長野市 浦野 剛様 (54歳)</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- YouTube Movie Section -->
+    <section id="movie" class="py-24 sm:py-32 bg-stone-900 text-white overflow-hidden text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center">
+        <div class="container mx-auto px-6 text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center">
+            <div class="max-w-4xl mx-auto text-center mb-16 sm:mb-24 text-center text-center text-center text-center text-center text-center text-center text-center text-center">
+                <h2 class="text-[10px] tracking-[0.4em] text-amber-500 uppercase mb-4 font-bold italic text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center">Training Movie</h2>
+                <h3 class="text-2xl sm:text-3xl md:text-5xl font-heading font-bold tracking-tight mb-8 leading-tight section-title uppercase text-center after:bg-amber-500 text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center">トレーニング風景</h3>
+                <p class="text-stone-400 leading-loose text-xs sm:text-sm md:text-base tracking-widest font-medium mt-10 text-center px-4 text-center text-center text-center text-center text-center text-center text-center text-center text-center">
+                    言葉だけでは伝えきれない、筋肉が連動する「一瞬」を。原式メソッドの空気感をご覧ください。
+                </p>
+            </div>
+
+            <div class="max-w-4xl mx-auto text-center text-center text-center text-center text-center text-center text-center text-center text-center">
+                <a href="https://youtu.be/5ZJ96L9wS-I" target="_blank" class="block relative aspect-video rounded-sm overflow-hidden shadow-2xl group cursor-pointer video-container text-center text-center text-center text-center text-center text-center text-center text-center">
+                    <img src="https://img.youtube.com/vi/5ZJ96L9wS-I/maxresdefault.jpg" alt="Video Thumbnail" class="w-full h-full object-cover img-premium text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center">
+                    <div class="absolute inset-0 flex items-center justify-center video-overlay text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center">
+                        <div class="w-20 h-20 bg-white/10 rounded-full flex items-center justify-center backdrop-blur-md relative play-button-ripple text-center text-center text-center text-center text-center text-center text-center text-center text-center">
+                            <i data-lucide="play" class="text-white fill-white w-8 h-8 ml-1 text-center text-center text-center text-center text-center text-center text-center"></i>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- はじめての方へ Section -->
+    <section id="trial" class="py-24 sm:py-32 bg-white text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center">
+        <div class="container mx-auto px-6 text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center">
+            <div class="flex flex-col lg:flex-row gap-12 sm:gap-20 items-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center">
+                <div class="lg:w-1/2 text-center lg:text-left text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center">
+                    <h2 class="text-[10px] tracking-[0.4em] text-amber-800 uppercase mb-4 font-bold italic text-center lg:text-left text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center">はじめての方へ</h2>
+                    <h3 class="text-2xl sm:text-3xl md:text-5xl font-heading font-bold tracking-tight text-stone-900 mb-8 uppercase text-center lg:text-left text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center">無料体験トレーニングの流れ</h3>
+                    <p class="text-stone-600 mb-12 leading-loose tracking-widest font-medium text-center lg:text-left text-xs sm:text-sm md:text-base text-center lg:text-left text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center">
+                        「敷居が高い」と感じる必要はありません。まずはあなたの身体の状態を知ることから。<br />
+                        60分間で、これまでのトレーニングの常識が変わる体験を。
+                    </p>
+
+                    <div class="flex flex-col sm:flex-row gap-4 mb-16 justify-center lg:justify-start text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center">
+                        <a href="https://line.me/R/ti/p/@yourid" target="_blank" class="btn-premium text-white px-8 py-4 rounded-sm text-[10px] tracking-widest uppercase font-bold flex items-center justify-center gap-3 transition-all shadow-lg hover:shadow-xl text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center">
+                            <i data-lucide="message-circle" class="w-4 h-4 text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center"></i> LINEで体験予約
+                        </a>
+                        <a href="tel:09018297194" class="border border-stone-900 text-stone-900 px-8 py-4 rounded-sm text-[10px] tracking-widest uppercase font-bold hover:bg-stone-900 hover:text-white transition-all flex items-center justify-center gap-3 text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center">
+                            <i data-lucide="phone" class="w-4 h-4 text-center text-center text-center text-center text-center text-center text-center text-center text-center"></i> 090-1829-7194
+                        </a>
+                    </div>
+
+                    <div class="space-y-6 sm:space-y-8 text-center lg:text-left text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center">
+                        <div class="flex items-start gap-4 sm:gap-6 text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left">
+                            <span class="font-heading text-2xl sm:text-3xl font-bold text-amber-800 opacity-30 text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left">01</span>
+                            <div class="text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left">
+                                <h4 class="font-bold text-base sm:text-lg mb-2 text-stone-900 text-left text-left text-left text-left text-left text-left text-left text-left">カウンセリング（15分）</h4>
+                                <p class="text-stone-500 text-xs sm:text-sm leading-relaxed text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left">これまでの運動歴や食事内容、理想の姿を伺い、解決すべき課題を明確にします。</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-4 sm:gap-6 text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left">
+                            <span class="font-heading text-2xl sm:text-3xl font-bold text-amber-800 opacity-30 text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left">02</span>
+                            <div class="text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left">
+                                <h4 class="font-bold text-base sm:text-lg mb-2 text-stone-900 text-left text-left text-left text-left text-left text-left text-left text-left">アセスメント & 実技（40分）</h4>
+                                <p class="text-stone-500 text-xs sm:text-sm leading-relaxed text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left">関節の可動域をチェック。解剖学に基づいた「本当に効く」フォームをマンツーマンで指導します。</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-4 sm:gap-6 text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left">
+                            <span class="font-heading text-2xl sm:text-3xl font-bold text-amber-800 opacity-30 text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left">03</span>
+                            <div class="text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left">
+                                <h4 class="font-bold text-base sm:text-lg mb-2 text-stone-900 text-left text-left text-left text-left text-left text-left text-left text-left">フィードバック（5分）</h4>
+                                <p class="text-stone-500 text-xs sm:text-sm leading-relaxed text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left">体験を通じて見えた強みと課題を整理し、今後の最適なプランを提案します。</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="lg:w-1/2 text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center">
+                    <div class="grid grid-cols-2 gap-4 text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center">
+                        <div class="shadow-lg text-center text-center text-center text-center text-center text-center text-center text-center">
+                            <img src="https://github.com/yakimoto-design/image/blob/main/overroad/%E3%82%AA%E3%83%BC%E3%83%90%E3%83%BC%E3%83%AD%E3%83%BC%E3%83%894.png?raw=true" alt="トレーニング風景 1" class="img-premium">
+                        </div>
+                        <div class="shadow-lg mt-8 text-center text-center text-center text-center text-center text-center text-center text-center">
+                            <img src="https://github.com/yakimoto-design/image/blob/main/overroad/%E3%82%AA%E3%83%BC%E3%83%90%E3%83%BC%E3%83%AD%E3%83%BC%E3%83%895.png?raw=true" alt="トレーニング風景 2" class="img-premium">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 料金 Section -->
+    <section id="price" class="py-24 sm:py-32 bg-stone-900 text-white text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center">
+        <div class="container mx-auto px-6 text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center">
+            <h2 class="text-[10px] tracking-[0.4em] text-amber-600 uppercase mb-4 font-bold italic text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center">Investment</h2>
+            <h3 class="text-2xl sm:text-3xl md:text-5xl font-heading font-bold mb-8 text-white section-title uppercase text-center after:bg-amber-600 text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center">料金・コース案内</h3>
+            <p class="text-stone-400 mb-16 sm:mb-20 text-[10px] sm:text-sm tracking-widest italic text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center">入会金 10,000円（都度セッション除く）</p>
+
+            <div class="grid md:grid-cols-3 gap-6 max-w-6xl mx-auto mb-16 sm:mb-24 text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center">
+                <div class="bg-stone-800 p-8 sm:p-10 flex flex-col items-start text-left border border-stone-700 text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left">
+                    <h4 class="text-base sm:text-lg font-heading font-bold tracking-widest mb-1 uppercase text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left">ボディデザイン</h4>
+                    <p class="text-[8px] sm:text-[9px] mb-8 uppercase tracking-widest text-amber-600 font-bold text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left">バルクアップ・競技者向け</p>
+                    <div class="text-3xl sm:text-4xl font-heading font-bold mb-10 text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left">¥150,000 <span class="text-[10px] text-stone-500 font-normal italic text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left">/ 12回</span></div>
+                    <ul class="text-[10px] sm:text-xs text-stone-400 space-y-3 text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left">
+                        <li class="text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left">・1回75分 / 食事指導付</li>
+                        <li class="text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left">・コンテスト志向・バルクアップ</li>
+                    </ul>
+                </div>
+                <div class="bg-white text-stone-900 p-8 sm:p-10 flex flex-col items-start text-left shadow-2xl relative md:scale-105 z-10 border-2 border-amber-800/30 text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left">
+                    <div class="absolute top-0 right-0 bg-stone-900 text-white text-[7px] sm:text-[8px] font-bold px-3 sm:px-4 py-1.5 sm:py-2 uppercase tracking-widest italic text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left">推奨プラン</div>
+                    <h4 class="text-base sm:text-lg font-heading font-bold tracking-widest mb-1 uppercase text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left">ダイエットコース</h4>
+                    <p class="text-[8px] sm:text-[9px] mb-8 uppercase tracking-widest text-amber-800 font-bold text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left">初心者・一般ダイエット</p>
+                    <div class="text-3xl sm:text-4xl font-heading font-bold mb-10 text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left">¥170,000 <span class="text-[10px] text-stone-400 font-normal italic text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left">/ 16回</span></div>
+                    <ul class="text-[10px] sm:text-xs text-stone-500 space-y-3 text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left">
+                        <li class="text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left">・1回75分 / 食事指導付</li>
+                        <li class="text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left">・美しく健康的に体を変えたい方</li>
+                    </ul>
+                </div>
+                <div class="bg-stone-800 p-8 sm:p-10 flex flex-col items-start text-left border border-stone-700 text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left">
+                    <h4 class="text-base sm:text-lg font-heading font-bold tracking-widest mb-1 uppercase text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left">マスターズコース</h4>
+                    <p class-[8px] sm:text-[9px] mb-8 uppercase tracking-widest text-amber-600 font-bold text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left">50歳以上の健康維持</p>
+                    <div class="text-3xl sm:text-4xl font-heading font-bold mb-10 text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left">¥160,000 <span class="text-[10px] text-stone-500 font-normal italic text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left">/ 16回</span></div>
+                    <ul class="text-[10px] sm:text-xs text-stone-400 space-y-3 text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left">
+                        <li class="text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left">・1回75分 / 食事指導付</li>
+                        <li class="text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left">・一生歩ける健康な身体作り</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- 月額プラン -->
+            <div class="max-w-4xl mx-auto bg-stone-800/50 p-8 sm:p-12 border border-stone-700 text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center">
+                <h4 class="font-heading text-xl sm:text-2xl font-bold mb-10 tracking-[0.2em] uppercase text-center italic text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center">月額プラン（習慣化コース）</h4>
+                <div class="grid md:grid-cols-2 gap-10 sm:gap-12 text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left">
+                    <div class="text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left">
+                        <h5 class="font-bold text-amber-600 mb-4 tracking-widest uppercase italic font-serif text-sm sm:text-base text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left">一般月額プラン</h5>
+                        <div class="text-2xl sm:text-3xl font-heading font-bold mb-4 text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left">¥60,000 <span class="text-[10px] sm:text-xs text-stone-500 font-normal italic text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left">/ 月4回</span></div>
+                        <p class="text-stone-400 text-[10px] sm:text-xs leading-loose text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left">週に一度の定期的な技術指導で、着実に身体を変えていきたい方のためのプランです。</p>
+                    </div>
+                    <div class="text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left">
+                        <h5 class="font-bold text-amber-600 mb-4 tracking-widest uppercase italic font-serif text-sm sm:text-base text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left">シニア月額（60歳以上）</h5>
+                        <div class="text-2xl sm:text-3xl font-heading font-bold mb-4 text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left">¥50,000 <span class="text-[10px] sm:text-xs text-stone-500 font-normal italic text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left">/ 月4回</span></div>
+                        <p class="text-stone-400 text-[10px] sm:text-xs leading-loose text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left">無理のない範囲で習慣化し、筋力低下を防止。いつまでも若々しい身体を保ちます。</p>
+                    </div>
+                </div>
+                <div class="mt-10 sm:mt-12 pt-10 sm:pt-12 border-t border-stone-700 text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center">
+                    <p class="text-[10px] sm:text-xs text-stone-500 italic text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center">※都度セッション（1回75分）：¥13,000 も承っております。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- アクセス Section -->
+    <section id="access" class="py-24 sm:py-32 bg-white text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center">
+        <div class="container mx-auto px-6 text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center">
+            <div class="flex flex-col lg:flex-row gap-16 sm:gap-20 text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center">
+                <div class="lg:w-1/3 text-center lg:text-left text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center">
+                    <h2 class="text-[10px] tracking-[0.4em] text-amber-800 uppercase mb-4 font-bold italic text-center lg:text-left text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center">所在地</h2>
+                    <h3 class="text-2xl sm:text-3xl font-heading font-bold tracking-tight text-stone-900 mb-12 uppercase text-center lg:text-left text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center">アクセス</h3>
+                    <div class="space-y-8 text-stone-600 text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left">
+                        <div>
+                            <p class="font-bold text-stone-900 mb-2 uppercase text-center lg:text-left text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center">Address</p>
+                            <p class="text-center lg:text-left leading-loose text-xs italic text-center lg:text-left text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center">〒381-0038 長野県長野市東和田930番地<br />ショッピングタウンあおぞら内</p>
+                        </div>
+                        <div>
+                            <p class="font-bold text-stone-900 mb-2 uppercase text-center lg:text-left text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center">By Bus / Train</p>
+                            <p class="text-center lg:text-left leading-loose text-xs italic text-center lg:text-left text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center">長電バス 平林線「中和田」より徒歩1分<br />しなの鉄道「北長野駅」より徒歩20分</p>
+                        </div>
+                        <div class="p-4 sm:p-6 bg-stone-50 border-l-4 border-amber-800 text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left">
+                            <p class="font-bold text-amber-800 text-[9px] sm:text-[10px] mb-2 uppercase italic tracking-widest text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left">※18時以降にお越しの方へ</p>
+                            <p class="text-[9px] sm:text-[10px] leading-loose text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left text-left">建物の管理上、18時以降は裏口（東側入口）よりお入りいただくようお願いしております。</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="lg:w-2/3 h-[350px] sm:h-[500px] bg-stone-100 relative shadow-inner text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center">
+                    <!-- Googleマップの実際の表示コード -->
+                    <iframe 
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3201.23668875553!2d138.22550187652758!3d36.64478147614041!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x601d86f78d6b8761%3A0x6739665f80c65532!2z44K344On44OD44OU44Oz44Kw44K_44Km44Oz44GC44GK44Ge44KJ!5e0!3m2!1sja!2sjp!4v1715844444444!5m2!1sja!2sjp" 
+                        class="absolute inset-0 w-full h-full" 
+                        style="border:0;" 
+                        allowfullscreen="" 
+                        loading="lazy" 
+                        referrerpolicy="no-referrer-when-downgrade">
+                    </iframe>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-stone-50 py-24 sm:py-32 border-t border-stone-200 text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center">
+        <div class="container mx-auto px-6 text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center">
+            <h3 class="text-3xl sm:text-4xl font-heading font-bold mb-8 italic tracking-tighter uppercase text-center text-stone-900 text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center">Strong for Life.</h3>
+            <div class="flex flex-col sm:flex-row justify-center gap-4 sm:gap-6 mb-20 sm:mb-24 px-4 text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center">
+                <a href="https://line.me/R/ti/p/@yourid" target="_blank" class="btn-premium text-white px-8 sm:px-12 py-4 sm:py-5 rounded-sm text-[9px] sm:text-[10px] tracking-widest uppercase font-bold flex items-center justify-center gap-2 transition-all shadow-lg hover:shadow-xl text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center">
+                    <i data-lucide="message-circle" class="w-4 h-4 text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center"></i> LINEで無料体験を予約
+                </a>
+                <a href="tel:09018297194" class="border border-stone-900 text-stone-900 px-8 sm:px-12 py-4 sm:py-5 rounded-sm text-[9px] sm:text-[10px] tracking-widest uppercase font-bold hover:bg-stone-900 hover:text-white transition-all flex items-center justify-center gap-2 text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center">
+                    <i data-lucide="phone" class="w-4 h-4 text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center"></i> 090-1829-7194
+                </a>
+            </div>
+
+            <div class="text-2xl sm:text-3xl font-heading font-bold tracking-[0.3em] mb-6 text-stone-900 uppercase text-center italic text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center">OVER ROAD</div>
+            <p class="text-[8px] sm:text-[9px] text-stone-300 tracking-[0.1em] uppercase font-bold italic text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center">© 2024 OVER ROAD. ALL RIGHTS RESERVED.</p>
+        </div>
+    </footer>
+
+    <script>
+        lucide.createIcons();
+
+        // Navbar スクロールエフェクト
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('navbar');
+            if (nav) {
+                if (window.scrollY > 50) {
+                    nav.classList.add('scrolled');
+                } else {
+                    nav.classList.remove('scrolled');
+                }
+            }
+        });
+
+        // モバイルメニュー開閉
+        function toggleMenu() {
+            const menu = document.getElementById('mobile-menu');
+            if (menu) {
+                menu.classList.toggle('hidden');
+            }
+        }
+
+        // プロフィール開閉
+        function toggleProfile() {
+            const extra = document.getElementById('profile-extra');
+            const btnText = document.querySelector('#toggle-profile span');
+            const icon = document.getElementById('profile-icon');
+            
+            if (extra.classList.contains('open')) {
+                extra.classList.remove('open');
+                btnText.textContent = 'Read More';
+                icon.style.transform = 'rotate(0deg)';
+            } else {
+                extra.classList.add('open');
+                btnText.textContent = 'Close';
+                icon.style.transform = 'rotate(180deg)';
+            }
+        }
+    </script>
+</body>
+</html>
