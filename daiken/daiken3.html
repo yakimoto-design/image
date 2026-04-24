@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>株式会社 大建 | 人にこたえる住まいづくり。建築家とつくる注文住宅</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700&family=Noto+Sans+JP:wght@300;400;700;900&family=Playfair+Display:wght@700&display=swap');
+
+        :root {
+            --bg-color: #ffffff;
+            --text-main: #1a1a1a;
+            --accent: #a38968;
+        }
+
+        body {
+            font-family: 'Noto Sans JP', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            scroll-behavior: smooth;
+        }
+
+        .serif-jp { font-family: 'Noto Serif JP', serif; }
+        
+        /* ロゴ用フォント：力強いサンセリフ体 */
+        .logo-font { 
+            font-family: 'Noto Sans JP', sans-serif;
+            font-weight: 900;
+        }
+
+        /* ゆっくりとしたフェードインアニメーション */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 2s cubic-bezier(0.22, 1, 0.36, 1), transform 2s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ローディング画面のロゴアニメーション：力強さを出すためブラーを抑えめに */
+        @keyframes slow-pulse {
+            0% { opacity: 0; letter-spacing: 0.6em; }
+            50% { opacity: 1; letter-spacing: 1.2em; }
+            100% { opacity: 0; letter-spacing: 0.6em; }
+        }
+
+        .loader-logo {
+            animation: slow-pulse 4s ease-in-out infinite;
+        }
+
+        .nav-link {
+            position: relative;
+            font-size: 11px;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 1px;
+            bottom: -4px;
+            left: 0;
+            background-color: currentColor;
+            transition: width 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .biz-card {
+            position: relative;
+            overflow: hidden;
+            aspect-ratio: 4 / 5;
+            background-color: #e5e7eb;
+        }
+        
+        .biz-card img {
+            transition: transform 3s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        
+        .biz-card:hover img {
+            transform: scale(1.1);
+        }
+
+        .biz-overlay {
+            background: linear-gradient(to top, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0) 60%);
+        }
+
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: #ccc; }
+
+        .hero-text {
+            text-shadow: 0 4px 30px rgba(0,0,0,0.3);
+        }
+
+        /* 会社案内のテーブルスタイル */
+        .profile-row {
+            display: flex;
+            padding: 1.5rem 0;
+            border-bottom: 1px solid #eee;
+            align-items: flex-start;
+        }
+        .profile-label {
+            width: 160px;
+            flex-shrink: 0;
+            font-size: 0.75rem;
+            letter-spacing: 0.1em;
+            color: #999;
+            text-transform: uppercase;
+        }
+        .profile-value {
+            font-size: 0.9rem;
+            line-height: 1.8;
+            color: #333;
+        }
+        @media (max-width: 768px) {
+            .profile-row { flex-direction: column; }
+            .profile-label { margin-bottom: 0.5rem; }
+        }
+
+        /* モバイルメニューのアニメーション */
+        #mobile-menu {
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        #mobile-menu.open {
+            opacity: 1;
+            visibility: visible;
+        }
+        .menu-item-anim {
+            transform: translateY(20px);
+            opacity: 0;
+            transition: all 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        #mobile-menu.open .menu-item-anim {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        /* ヒーロースライダーのアニメーション */
+        .hero-slide {
+            position: absolute;
+            inset: 0;
+            opacity: 0;
+            transition: opacity 2.5s ease-in-out;
+            z-index: 0;
+        }
+        .hero-slide.active {
+            opacity: 1;
+        }
+        .hero-slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: brightness(0.75);
+            transform: scale(1.05);
+            transition: transform 10s linear;
+        }
+        .hero-slide.active img {
+            transform: scale(1.15);
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Loading Screen: DAIKEN -->
+    <div id="loader" class="fixed inset-0 z-[100] bg-white flex items-center justify-center transition-opacity duration-[2000ms] ease-in-out">
+        <div class="logo-font text-3xl md:text-6xl tracking-[1em] loader-logo">DAIKEN</div>
+    </div>
+
+    <!-- Mobile Menu Overlay -->
+    <div id="mobile-menu" class="fixed inset-0 z-[60] bg-white flex flex-col justify-center items-center text-center">
+        <button id="close-menu" class="absolute top-8 right-8 text-3xl text-black p-4">
+            <i class="fa-solid fa-xmark font-light"></i>
+        </button>
+        <div class="space-y-12 flex flex-col items-center">
+            <a href="#philosophy" class="menu-item-anim text-3xl md:text-5xl serif-jp hover:opacity-50 transition-all duration-300" style="transition-delay: 0.1s;">Concept</a>
+            <a href="#business" class="menu-item-anim text-3xl md:text-5xl serif-jp hover:opacity-50 transition-all duration-300" style="transition-delay: 0.2s;">Business</a>
+            <a href="#profile" class="menu-item-anim text-3xl md:text-5xl serif-jp hover:opacity-50 transition-all duration-300" style="transition-delay: 0.3s;">Profile</a>
+        </div>
+        <div class="mt-24 menu-item-anim" style="transition-delay: 0.4s;">
+            <p class="text-[10px] tracking-[0.5em] text-gray-400 uppercase">Follow us</p>
+            <div class="flex mt-6 justify-center text-xl">
+                <a href="#"><i class="fa-brands fa-instagram"></i></a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav id="navbar" class="fixed top-0 left-0 w-full z-50 px-6 md:px-12 py-8 flex justify-between items-center transition-all duration-1000 text-white mix-blend-difference">
+        <a href="#" class="text-xl md:text-2xl logo-font tracking-[0.2em]">DAIKEN</a>
+        
+        <div class="hidden lg:flex space-x-12">
+            <a href="#philosophy" class="nav-link font-light">Concept</a>
+            <a href="#business" class="nav-link font-light">Business</a>
+            <a href="#profile" class="nav-link font-light">Profile</a>
+        </div>
+
+        <div class="flex items-center">
+            <button id="menu-btn" class="text-2xl p-2" aria-label="Menu"><i class="fa-solid fa-bars-staggered"></i></button>
+        </div>
+    </nav>
+
+    <!-- Hero Slider Section -->
+    <header class="relative h-screen w-full overflow-hidden flex items-center justify-center bg-stone-900">
+        <div id="hero-slider">
+            <div class="hero-slide active">
+                <img src="https://github.com/yakimoto-design/image/blob/main/daiken/daiken2.JPG?raw=true" alt="Interior View">
+            </div>
+            <div class="hero-slide">
+                <img src="https://github.com/yakimoto-design/image/blob/main/daiken/daiken10.JPG?raw=true" alt="Spacious Living">
+            </div>
+            <div class="hero-slide">
+                <img src="https://github.com/yakimoto-design/image/blob/main/daiken/daiken4.JPG?raw=true" alt="Exterior View">
+            </div>
+        </div>
+
+        <div class="relative z-10 text-center text-white space-y-8 hero-text">
+            <div class="fade-in">
+                <h1 class="text-4xl md:text-7xl serif-jp font-bold leading-tight tracking-widest px-4">
+                    人にこたえる住まいづくり
+                </h1>
+                <p class="text-xl md:text-3xl mt-10 logo-font tracking-[0.8em]">大建</p>
+            </div>
+            <div class="flex flex-col items-center mt-12 fade-in">
+                <div class="h-24 w-px bg-white/40 mb-4 animate-bounce"></div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Philosophy -->
+    <section id="philosophy" class="py-40 px-6 md:px-24 bg-white">
+        <div class="max-w-4xl mx-auto text-center">
+            <div class="fade-in">
+                <h2 class="text-[10px] uppercase tracking-[0.5em] text-gray-400 mb-12 font-bold">Concept</h2>
+                <h3 class="text-3xl md:text-5xl serif-jp leading-[1.8] mb-16">
+                    人にこたえる、<br>
+                    心安らぐ住まいづくり。
+                </h3>
+                <div class="space-y-10 text-gray-500 leading-loose text-sm md:text-base max-w-2xl mx-auto">
+                    <p>
+                        栃木県小山市を拠点に、建設・土木・不動産の三本柱で、地域に根ざした家づくりを続けています。私たちが大切にしているのは、お客様一人ひとりの想いや理想に真摯に向き合い、その声に「こたえる」こと。
+                    </p>
+                    <p>
+                        土地の選定から設計、そして確かな施工まで。住まう人がいつまでも心地よく、自分らしくいられる空間を。DAIKEN HOMEは、確かな技術と対話を通じて、価値ある住まいを創造します。
+                    </p>
+                </div>
+                <div class="mt-20">
+                    <div class="h-px w-20 bg-stone-200 mx-auto"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Business Domains -->
+    <section id="business" class="py-40 bg-zinc-50 px-6 md:px-12">
+        <div class="max-w-[1400px] mx-auto">
+            <div class="mb-24 fade-in text-center">
+                <h2 class="text-[10px] uppercase tracking-[0.5em] text-gray-400 mb-6 font-bold">Business</h2>
+                <h3 class="text-4xl md:text-5xl serif-jp">事業案内</h3>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 text-left">
+                <!-- 01 新築 -->
+                <div class="biz-card fade-in group">
+                    <img src="https://github.com/yakimoto-design/image/blob/main/daiken/daiken4.JPG?raw=true" alt="新築" class="w-full h-full object-cover">
+                    <div class="absolute inset-0 biz-overlay flex flex-col justify-end p-10 text-white">
+                        <span class="text-[10px] tracking-[0.3em] uppercase mb-2 opacity-60">01</span>
+                        <h4 class="text-2xl serif-jp">新築</h4>
+                        <p class="text-[10px] text-gray-300 mt-2 tracking-widest opacity-0 group-hover:opacity-100 transition-opacity duration-700 uppercase">New Construction</p>
+                    </div>
+                </div>
+
+                <!-- 02 リフォーム -->
+                <div class="biz-card fade-in group" style="transition-delay: 0.1s;">
+                    <img src="https://github.com/yakimoto-design/image/blob/main/daiken/daiken9.JPG?raw=true" alt="リフォーム" class="w-full h-full object-cover">
+                    <div class="absolute inset-0 biz-overlay flex flex-col justify-end p-10 text-white">
+                        <span class="text-[10px] tracking-[0.3em] uppercase mb-2 opacity-60">02</span>
+                        <h4 class="text-2xl serif-jp">リフォーム・増改築</h4>
+                        <p class="text-[10px] text-gray-300 mt-2 tracking-widest opacity-0 group-hover:opacity-100 transition-opacity duration-700 uppercase">Renovation</p>
+                    </div>
+                </div>
+
+                <!-- 03 外構 -->
+                <div class="biz-card fade-in group" style="transition-delay: 0.2s;">
+                    <img src="https://github.com/yakimoto-design/image/blob/main/daiken/daiken5.JPG?raw=true" alt="外構" class="w-full h-full object-cover">
+                    <div class="absolute inset-0 biz-overlay flex flex-col justify-end p-10 text-white">
+                        <span class="text-[10px] tracking-[0.3em] uppercase mb-2 opacity-60">03</span>
+                        <h4 class="text-2xl serif-jp">外構・エクステリア</h4>
+                        <p class="text-[10px] text-gray-300 mt-2 tracking-widest opacity-0 group-hover:opacity-100 transition-opacity duration-700 uppercase">Exterior</p>
+                    </div>
+                </div>
+
+                <!-- 04 土木一式 -->
+                <div class="biz-card fade-in group" style="transition-delay: 0.3s;">
+                    <img src="https://github.com/yakimoto-design/image/blob/main/daiken/daiken3.JPG?raw=true" alt="土木" class="w-full h-full object-cover">
+                    <div class="absolute inset-0 biz-overlay flex flex-col justify-end p-10 text-white">
+                        <span class="text-[10px] tracking-[0.3em] uppercase mb-2 opacity-60">04</span>
+                        <h4 class="text-2xl serif-jp">土木一式</h4>
+                        <p class="text-[10px] text-gray-300 mt-2 tracking-widest opacity-0 group-hover:opacity-100 transition-opacity duration-700 uppercase">Civil Engineering</p>
+                    </div>
+                </div>
+
+                <!-- 05 不動産情報 -->
+                <div class="biz-card fade-in group" style="transition-delay: 0.4s;">
+                    <img src="https://github.com/yakimoto-design/image/blob/main/daiken/daiken8.JPG?raw=true" alt="不動産" class="w-full h-full object-cover">
+                    <div class="absolute inset-0 biz-overlay flex flex-col justify-end p-10 text-white">
+                        <span class="text-[10px] tracking-[0.3em] uppercase mb-2 opacity-60">05</span>
+                        <h4 class="text-2xl serif-jp">不動産情報</h4>
+                        <p class="text-[10px] text-gray-300 mt-1 tracking-widest opacity-0 group-hover:opacity-100 transition-opacity duration-700 uppercase">Real Estate (Sale / Rental)</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Company Profile -->
+    <section id="profile" class="py-40 px-6 md:px-24 bg-white overflow-hidden text-center md:text-left">
+        <div class="max-w-4xl mx-auto">
+            <div class="mb-24 fade-in">
+                <h2 class="text-[10px] uppercase tracking-[0.5em] text-gray-400 mb-6 font-bold">Company Profile</h2>
+                <h3 class="text-4xl md:text-5xl serif-jp">会社案内</h3>
+            </div>
+
+            <div class="fade-in text-left">
+                <div class="profile-row">
+                    <div class="profile-label">会社名</div>
+                    <div class="profile-value">株式会社　大建</div>
+                </div>
+                <div class="profile-row">
+                    <div class="profile-label">所在地</div>
+                    <div class="profile-value">栃木県小山市城東６丁目１番４２号</div>
+                </div>
+                <div class="profile-row">
+                    <div class="profile-label">連絡先</div>
+                    <div class="profile-value">
+                        TEL：0285-25-1421<br>
+                        FAX：0285-25-1422<br>
+                        e-mail：nakamura@kkdaiken.co.jp
+                    </div>
+                </div>
+                <div class="profile-row">
+                    <div class="profile-label">代表者名</div>
+                    <div class="profile-value">中村　知大</div>
+                </div>
+                <div class="profile-row">
+                    <div class="profile-label">許可・免許</div>
+                    <div class="profile-value">
+                        建設業（建築・土木）：栃木県知事（般-23）第15945号<br>
+                        宅建業：栃木県知事（７）第２７７７号
+                    </div>
+                </div>
+                <div class="profile-row">
+                    <div class="profile-label">所属団体</div>
+                    <div class="profile-value">（社）栃木県宅地建物取引業協会</div>
+                </div>
+                <div class="profile-row">
+                    <div class="profile-label">届出・登録</div>
+                    <div class="profile-value">ハウスプラス住宅保証（株）　J－00027</div>
+                </div>
+                <div class="profile-row">
+                    <div class="profile-label">資格等</div>
+                    <div class="profile-value">２級建築士、２級土木施工管理技士、宅地建物取引主任者 など</div>
+                </div>
+                <div class="profile-row border-none">
+                    <div class="profile-label">備考</div>
+                    <div class="profile-value text-xs text-gray-400">
+                        KGKエネフリー会員：金融公庫認定次世代型省エネ住宅工法（認定番号：住公発第174号）<br>
+                        住宅型式性能認定：省エネルギー対策 4等級
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Final Message Section -->
+    <section class="py-60 px-6 bg-stone-950 text-white text-center relative overflow-hidden">
+        <div class="absolute inset-0 opacity-20">
+             <img src="https://github.com/yakimoto-design/image/blob/main/daiken/daiken10.JPG?raw=true" alt="Background Footer" class="w-full h-full object-cover">
+        </div>
+        <div class="max-w-4xl mx-auto relative z-10">
+            <h2 class="serif-jp font-bold text-5xl md:text-7xl fade-in leading-tight">人にこたえる<br>住まいづくり</h2>
+            <p class="text-xl md:text-3xl mt-10 logo-font tracking-[0.8em] fade-in">大建</p>
+        </div>
+    </section>
+
+    <footer class="py-12 px-6 bg-stone-950 text-white border-t border-white/5 text-center">
+        <div class="text-[10px] text-gray-500 tracking-[0.4em]">© 2026 株式会社 大建</div>
+    </footer>
+
+    <script>
+        function hideLoader() {
+            const loader = document.getElementById('loader');
+            if (loader) {
+                setTimeout(() => {
+                    loader.style.opacity = '0';
+                    setTimeout(() => {
+                        loader.style.display = 'none';
+                        startAnimations();
+                    }, 2000); 
+                }, 4000); 
+            }
+        }
+
+        window.addEventListener('load', hideLoader);
+
+        const slides = document.querySelectorAll('.hero-slide');
+        let currentSlide = 0;
+
+        function nextSlide() {
+            slides[currentSlide].classList.remove('active');
+            currentSlide = (currentSlide + 1) % slides.length;
+            slides[currentSlide].classList.add('active');
+        }
+
+        setInterval(nextSlide, 6000);
+
+        const menuBtn = document.getElementById('menu-btn');
+        const closeMenuBtn = document.getElementById('close-menu');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const menuLinks = mobileMenu.querySelectorAll('a');
+
+        menuBtn.addEventListener('click', () => {
+            mobileMenu.classList.add('open');
+            document.body.style.overflow = 'hidden';
+        });
+
+        const closeMenu = () => {
+            mobileMenu.classList.remove('open');
+            document.body.style.overflow = '';
+        };
+
+        closeMenuBtn.addEventListener('click', closeMenu);
+        menuLinks.forEach(link => {
+            link.addEventListener('click', closeMenu);
+        });
+
+        function startAnimations() {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, { threshold: 0.15 });
+
+            document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+        }
+
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('navbar');
+            if (window.scrollY > 100) {
+                nav.classList.add('bg-white/95', 'py-4', 'shadow-sm', 'text-black');
+                nav.classList.remove('py-8', 'text-white', 'mix-blend-difference');
+            } else {
+                nav.classList.remove('bg-white/95', 'py-4', 'shadow-sm', 'text-black');
+                nav.classList.add('py-8', 'text-white', 'mix-blend-difference');
+            }
+        });
+    </script>
+</body>
+</html>
