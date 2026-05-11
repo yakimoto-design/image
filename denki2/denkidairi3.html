@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EPARK集客でんき | 代理店パートナー募集</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Noto Sans JP', sans-serif;
+            color: #333;
+            line-break: strict;
+            overflow-wrap: anywhere;
+        }
+        .bg-epark-green { background-color: #008B4B; }
+        .text-epark-green { color: #008B4B; }
+        .bg-epark-orange { background-color: #F16722; }
+        
+        .keep-phrase {
+            display: inline-block;
+        }
+
+        /* 画像内のボタン位置に重ねる透明リンク */
+        .hero-link-overlay {
+            position: absolute;
+            display: block;
+            cursor: pointer;
+            background: rgba(255, 0, 0, 0); 
+            transition: background 0.3s;
+        }
+
+        /* ヒーロー画像内の資料請求ボタン位置調整 */
+        @media (min-width: 768px) {
+            .hero-link-pc {
+                top: 78.5%;
+                left: 3.5%;
+                width: 31%;
+                height: 10%;
+            }
+        }
+
+        @media (max-width: 767px) {
+            /* スマホ版hero2(SP).pngのボタン位置に合わせた調整 */
+            .hero-link-sp {
+                top: 84%;
+                left: 5%;
+                width: 90%;
+                height: 8%;
+            }
+        }
+    </style>
+</head>
+<body class="bg-white">
+
+    <!-- Header -->
+    <header class="sticky top-0 z-50 bg-white shadow-sm border-b border-gray-100">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center gap-2 md:gap-4">
+                <a href="/">
+                    <img src="https://github.com/yakimoto-design/image/blob/main/EPRAK%E3%81%A7%E3%82%93%E3%81%8D_%E3%83%AD%E3%82%B4%E6%B1%BA%E5%AE%9A%E7%A8%BF_RGB_260126.png?raw=true" alt="EPARK集客でんき" class="h-7 md:h-9 w-auto">
+                </a>
+                <div class="hidden md:block h-6 w-px bg-gray-300"></div>
+                <div class="hidden md:block text-[10px] font-bold text-gray-400 tracking-tight">代理店パートナー募集</div>
+            </div>
+            <div class="flex items-center gap-4">
+                <!-- 資料請求ボタン -->
+                <a href="#contact" class="bg-epark-orange text-white px-5 py-2 rounded-full flex items-center justify-center hover:opacity-90 transition shadow-md shrink-0">
+                    <span class="text-xs md:text-sm font-bold tracking-wider whitespace-nowrap">資料請求はこちら</span>
+                    <svg class="w-3 h-3 ml-2 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- 1. Hero Section -->
+    <section class="w-full bg-white relative">
+        <div class="max-w-[1200px] mx-auto relative overflow-hidden">
+            <picture class="w-full">
+                <!-- SP版画像 -->
+                <source media="(max-width: 767px)" srcset="https://github.com/yakimoto-design/image/blob/main/denki2/hero2(SP).png?raw=true">
+                <!-- PC版画像 -->
+                <img src="https://github.com/yakimoto-design/image/blob/main/denki2/hero2.png?raw=true" alt="ヒーロービジュアル" class="w-full h-auto block">
+            </picture>
+            <a href="#contact" class="hero-link-overlay hero-link-pc hidden md:block" title="資料請求はこちら"></a>
+            <a href="#contact" class="hero-link-overlay hero-link-sp md:hidden" title="資料請求はこちら"></a>
+        </div>
+    </section>
+
+    <!-- 2. EPARK集客でんきとは？ Section -->
+    <section class="w-full bg-white">
+        <div class="max-w-[1200px] mx-auto">
+            <picture class="w-full">
+                <!-- SP版画像 -->
+                <source media="(max-width: 767px)" srcset="https://github.com/yakimoto-design/image/blob/main/denki2/EPARK%E9%9B%86%E5%AE%A2%E3%81%A7%E3%82%93%E3%81%8D%E3%81%A8%E3%81%AF%EF%BC%9F%EF%BC%88SP%EF%BC%89.png?raw=true">
+                <!-- PC版画像 -->
+                <img src="https://github.com/yakimoto-design/image/blob/main/denki2/EPARK%E9%9B%86%E5%AE%A2%E3%81%A7%E3%82%93%E3%81%8D%E3%81%A8%E3%81%AF%EF%BC%9F.png?raw=true" alt="EPARK集客でんきとは？" class="w-full h-auto block">
+            </picture>
+        </div>
+    </section>
+
+    <!-- 3. Merits Section -->
+    <section class="w-full bg-white">
+        <div class="max-w-[1200px] mx-auto">
+            <picture class="w-full">
+                <!-- SP版画像 -->
+                <source media="(max-width: 767px)" srcset="https://github.com/yakimoto-design/image/blob/main/denki2/%E3%83%A1%E3%83%AA%E3%83%83%E3%83%88%EF%BC%88SP%EF%BC%89.png?raw=true">
+                <!-- PC版画像 -->
+                <img src="https://github.com/yakimoto-design/image/blob/main/denki2/%E3%83%A1%E3%83%AA%E3%83%83%E3%83%88.png?raw=true" alt="代理店パートナーとしてのメリット" class="w-full h-auto block">
+            </picture>
+        </div>
+    </section>
+
+    <!-- 4. Flow Section -->
+    <section class="w-full bg-white">
+        <div class="max-w-[1200px] mx-auto">
+            <picture class="w-full">
+                <!-- SP版画像 -->
+                <source media="(max-width: 767px)" srcset="https://github.com/yakimoto-design/image/blob/main/denki2/%E6%B5%81%E3%82%8C%EF%BC%88SP%EF%BC%89.png?raw=true">
+                <!-- PC版画像 -->
+                <img src="https://github.com/yakimoto-design/image/blob/main/denki2/%E6%B5%81%E3%82%8C.png?raw=true" alt="代理店になるまでの流れ" class="w-full h-auto block">
+            </picture>
+        </div>
+    </section>
+
+    <!-- 5. Recommendation Section -->
+    <section class="w-full bg-white">
+        <div class="max-w-[1200px] mx-auto">
+            <picture class="w-full">
+                <!-- SP版画像 -->
+                <source media="(max-width: 767px)" srcset="https://github.com/yakimoto-design/image/blob/main/denki2/%E3%81%8A%E3%81%99%E3%81%99%E3%82%81%EF%BC%88SP%EF%BC%89.png?raw=true">
+                <!-- PC版画像 -->
+                <img src="https://github.com/yakimoto-design/image/blob/main/denki2/%E3%81%8A%E3%81%99%E3%81%99%E3%82%81.png?raw=true" alt="このような企業様におすすめ" class="w-full h-auto block">
+            </picture>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section id="contact" class="py-24 bg-gray-50">
+        <div class="container mx-auto px-4 max-w-4xl">
+            <h2 class="text-3xl font-black text-center mb-16">よくある質問</h2>
+            <div class="space-y-4">
+                <details class="group bg-white border border-gray-200 rounded-lg overflow-hidden">
+                    <summary class="flex justify-between items-center p-5 cursor-pointer hover:bg-gray-50 transition list-none">
+                        <div class="flex items-center">
+                            <span class="w-6 h-6 bg-epark-green text-white text-[10px] rounded-full flex items-center justify-center mr-3 font-bold shrink-0">Q</span>
+                            <span class="font-bold text-sm tracking-tight">個人でも応募できますか？</span>
+                        </div>
+                        <svg class="w-5 h-5 text-gray-400 group-open:rotate-180 transition-transform shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </summary>
+                    <div class="p-5 pt-0 text-sm text-gray-600 border-t border-gray-100 bg-gray-50 leading-relaxed">
+                        <span class="keep-phrase">本プログラムは</span><span class="keep-phrase">法人様限定と</span><span class="keep-phrase">させていただいております。</span><span class="keep-phrase">個人事業主・</span><span class="keep-phrase">フリーランスの方は</span><span class="keep-phrase">ご応募いただけません。</span>
+                    </div>
+                </details>
+                <details class="group bg-white border border-gray-200 rounded-lg overflow-hidden">
+                    <summary class="flex justify-between items-center p-5 cursor-pointer hover:bg-gray-50 transition list-none">
+                        <div class="flex items-center">
+                            <span class="w-6 h-6 bg-epark-green text-white text-[10px] rounded-full flex items-center justify-center mr-3 font-bold shrink-0">Q</span>
+                            <span class="font-bold text-sm tracking-tight">初期費用はかかりますか？</span>
+                        </div>
+                        <svg class="w-5 h-5 text-gray-400 group-open:rotate-180 transition-transform shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </summary>
+                    <div class="p-5 pt-0 text-sm text-gray-600 border-t border-gray-100 bg-gray-50 leading-relaxed">
+                        <span class="keep-phrase">加盟金・保証金・</span><span class="keep-phrase">在庫仕入れなど、</span><span class="keep-phrase">初期費用は</span><span class="keep-phrase">一切かかりません。</span><span class="keep-phrase">審査通過後</span><span class="keep-phrase">すぐに活動を</span><span class="keep-phrase">開始できます。</span>
+                    </div>
+                </details>
+                <details class="group bg-white border border-gray-200 rounded-lg overflow-hidden">
+                    <summary class="flex justify-between items-center p-5 cursor-pointer hover:bg-gray-50 transition list-none">
+                        <div class="flex items-center">
+                            <span class="w-6 h-6 bg-epark-green text-white text-[10px] rounded-full flex items-center justify-center mr-3 font-bold shrink-0">Q</span>
+                            <span class="font-bold text-sm tracking-tight"><span class="keep-phrase">電力業界の知識がなくても</span><span class="keep-phrase">大丈夫ですか？</span></span>
+                        </div>
+                        <svg class="w-5 h-5 text-gray-400 group-open:rotate-180 transition-transform shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </summary>
+                    <div class="p-5 pt-0 text-sm text-gray-600 border-t border-gray-100 bg-gray-50 leading-relaxed">
+                        <span class="keep-phrase">まったく問題ありません。</span><span class="keep-phrase">研修・勉強会で</span><span class="keep-phrase">業界知識を</span><span class="keep-phrase">ゼロから習得できます。</span><span class="keep-phrase">また、提案資料・</span><span class="keep-phrase">トークスクリプトも</span><span class="keep-phrase">ご用意しているため、</span><span class="keep-phrase">初日から営業に</span><span class="keep-phrase">活用できます。</span>
+                    </div>
+                </details>
+                <details class="group bg-white border border-gray-200 rounded-lg overflow-hidden">
+                    <summary class="flex justify-between items-center p-5 cursor-pointer hover:bg-gray-50 transition list-none">
+                        <div class="flex items-center">
+                            <span class="w-6 h-6 bg-epark-green text-white text-[10px] rounded-full flex items-center justify-center mr-3 font-bold shrink-0">Q</span>
+                            <span class="font-bold text-sm tracking-tight"><span class="keep-phrase">報酬の支払いタイミングは</span><span class="keep-phrase">いつですか？</span></span>
+                        </div>
+                        <svg class="w-5 h-5 text-gray-400 group-open:rotate-180 transition-transform shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </summary>
+                    <div class="p-5 pt-0 text-sm text-gray-600 border-t border-gray-100 bg-gray-50 leading-relaxed">
+                        <span class="keep-phrase">代理店手数料は、</span><span class="keep-phrase">成約・継続確認月の</span><span class="keep-phrase">翌々月末払いが</span><span class="keep-phrase">基本です。</span><span class="keep-phrase">詳細は契約時に</span><span class="keep-phrase">ご説明します。</span>
+                    </div>
+                </details>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-12">
+        <div class="container mx-auto px-4 text-center">
+            <a href="/" class="inline-block mb-8">
+                <img src="https://github.com/yakimoto-design/image/blob/main/EPRAK%E3%81%A7%E3%82%93%E3%81%8D_%E3%83%AD%E3%82%B4%E6%B1%BA%E5%AE%9A%E7%A8%BF_RGB_260126.png?raw=true" alt="EPARK集客でんき" class="h-8 md:h-10 w-auto brightness-0 invert">
+            </a>
+            <div class="flex flex-wrap justify-center gap-6 text-sm text-gray-400 mb-8">
+                <a href="#" class="hover:text-white transition">会社概要</a>
+                <a href="#" class="hover:text-white transition">プライバシーポリシー</a>
+                <a href="#" class="hover:text-white transition">特定商取引法に基づく表記</a>
+            </div>
+            <div class="border-t border-gray-800 pt-8 text-xs text-gray-500">
+                &copy; EPARK Inc. All Rights Reserved.
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>
